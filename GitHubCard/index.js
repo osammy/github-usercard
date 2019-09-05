@@ -5,69 +5,6 @@
 
 const myUrl = "https://api.github.com/users/osammy/followers";
 
-async function renderFollowers(url) {
-  let followersUrls = [];
-  followersUrls = await getFollowersUrls(url);
-  // try {
-  //   const response = await axios.get(url);
-  //   followersArrOfInfo = response.data;
-  //   followersUrls = followersArrOfInfo.map(follower => follower.url);
-  //   // console.log(followersUrls.length)
-  // } catch (e) {
-  //   alert("err");
-  // }
-  let followersData = [];
-  try {
-    const followersData = await getFollowers(followersUrls);
-    render(followersData);
-  } catch (e) {
-    console.log(e);
-  }
-}
-
-
-async function getFollowers(followersUrls) {
-  return new Promise((resolve, reject) => {
-
-      try {
-        const followersData = [];
-        followersUrls.forEach(async followerUrl => {
-        const response = await axios.get(followerUrl);
-        followersData.push(response.data);
-        if (followersUrls.length === followersData.length) resolve(followersData);
-        })
-      } catch (e) {
-        reject(e)
-      }
-
-  });
-}
-
-async function getFollowersUrls(url) {
-  return new Promise(async (resolve, reject) => {
-
-  try {
-    const response = await axios.get(url);
-    followersArrOfInfo = response.data;
-    console.log(followersArrOfInfo)
-    followersUrls = followersArrOfInfo.map(follower => follower.url);
-    resolve(followersUrls)
-  } catch (e) {
-    reject(e)
-  }
-
-  });
-}
-
-function render(data) {
-  const Cards = document.querySelector(".cards");
-
-  data.forEach(follower => {
-    Card = createComponent(follower);
-    Cards.appendChild(Card);
-  });
-}
-
 
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
@@ -195,4 +132,105 @@ function createComponent(data) {
   bigknell
 */
 
-renderFollowers(myUrl);
+//renderFollowers(myUrl);
+
+class Cards {
+  constructor(props) {
+  
+  this.cards = this
+  }
+
+
+  render() {
+
+  }
+
+  addCard(Card) {
+
+  }
+
+}
+
+class Card {
+  constructor(props) {
+  const {
+    avatar_url,
+    html_url,
+    followers,
+    following,
+    bio,
+    location,
+    name,
+    login
+  } = props;
+
+
+  this.avatar_url = avatar_url;
+  this.html_url = html_url;
+  this.followers = followers;
+  this.following = following;
+  this.bio =  bio;
+  this.location = location;
+  this.name = name;
+  this.login = login;
+
+  }
+
+
+  render() {
+
+  const div1 = document.createElement("div");
+  div1.setAttribute("class", "card");
+
+  const img = document.createElement("img");
+  img.setAttribute("src", avatar_url);
+  div1.appendChild(img);
+
+  const h3 = document.createElement("h3");
+  h3.setAttribute("class", "name");
+  h3.textContent = name;
+
+  const p1 = document.createElement("p");
+  p1.setAttribute("class", "username");
+  p1.textContent = login;
+
+  const p2 = document.createElement("p");
+  p2.textContent = `Location: ${location}`;
+
+  const p3 = document.createElement("p");
+  // const a = document.createElement("a");
+  // a.setAttribute("href", html_url);
+  // a.textContent = html_url;
+  p3.innerHTML = `Profile: <a href=${html_url}>${html_url}</a>`;
+
+  const p4 = document.createElement("p");
+  p4.textContent = `Followers: ${followers}`;
+
+  const p5 = document.createElement("p");
+  p5.textContent = `Following: ${following}`;
+
+  const p6 = document.createElement("p");
+  p6.textContent = `Bio: ${bio}`;
+
+  const div2 = document.createElement("div");
+  div2.setAttribute("class", "card-info");
+
+  div2.appendChild(h3);
+  div2.appendChild(p1);
+  div2.appendChild(p2);
+  div2.appendChild(p3);
+  div2.appendChild(p4);
+  div2.appendChild(p5);
+  div2.appendChild(p6);
+
+  div1.appendChild(div2);
+
+  return div1;
+}
+
+appendToCards(Card) {
+  const Cards = document.querySelector('.cards');
+  Cards.appendChild(card);
+}
+
+}
